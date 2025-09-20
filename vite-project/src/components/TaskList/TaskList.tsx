@@ -6,10 +6,29 @@ import type { Todo } from "../../@types/todo.type";
 interface PropsType {
   todo: Todo[];
   setTodo: React.Dispatch<React.SetStateAction<Todo[]>>;
+  setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  id: string;
+  setId: React.Dispatch<React.SetStateAction<string>>;
+  isPopUpOpen: boolean;
+  isEditOpen: boolean;
+  setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  initialInput: string;
+  setInitialInput: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const TaskList = (prop: PropsType) => {
-  const { todo, setTodo } = prop;
+  const {
+    todo,
+    setTodo,
+    setIsPopupOpen,
+    id,
+    setId,
+    isPopupOpen,
+    isEditOpen,
+    setIsEditOpen,
+    initialInput,
+    setInitialInput,
+  } = prop;
   const toggleCompleted = (id: string) => {
     setTodo((prev) =>
       prev.map((task) =>
@@ -40,10 +59,21 @@ const TaskList = (prop: PropsType) => {
                   </label>
                 </div>
                 <span className="button">
-                  <button>
+                  <button
+                    onClick={() => {
+                      setIsEditOpen(true);
+                      setId(task.id);
+                      setInitialInput(task.task);
+                    }}
+                  >
                     <MdEdit />
                   </button>
-                  <button>
+                  <button
+                    onClick={() => {
+                      setIsPopupOpen(true);
+                      setId(task.id);
+                    }}
+                  >
                     <MdDeleteForever />
                   </button>
                 </span>
@@ -73,10 +103,21 @@ const TaskList = (prop: PropsType) => {
                   </label>
                 </div>
                 <span className="button">
-                  <button>
+                  <button
+                    onClick={() => {
+                      setIsEditOpen(true);
+                      setId(task.id);
+                      setInitialInput(task.task);
+                    }}
+                  >
                     <MdEdit />
                   </button>
-                  <button>
+                  <button
+                    onClick={() => {
+                      setIsPopupOpen(true);
+                      setId(task.id);
+                    }}
+                  >
                     <MdDeleteForever />
                   </button>
                 </span>
