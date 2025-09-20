@@ -20,7 +20,7 @@ const TodoList = () => {
     <Todo>
       <Container>
         <TaskInput handleAdd={handleAdd} />
-        <TaskList />
+        <TaskList todo={todo} setTodo={setTodo} />
       </Container>
     </Todo>
   );

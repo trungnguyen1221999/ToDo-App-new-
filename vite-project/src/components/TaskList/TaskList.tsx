@@ -1,29 +1,90 @@
-import { MdEdit } from "react-icons/md";
-import { MdDeleteForever } from "react-icons/md";
+import { useState } from "react";
+import { MdEdit, MdDeleteForever } from "react-icons/md";
 import styled from "styled-components";
+import type { Todo } from "../../@types/todo.type";
 
-const TaskList = () => {
+interface PropsType {
+  todo: Todo[];
+  setTodo: React.Dispatch<React.SetStateAction<Todo[]>>;
+}
+
+const TaskList = (prop: PropsType) => {
+  const { todo, setTodo } = prop;
+  const toggleCompleted = (id: string) => {
+    setTodo((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
+  const completedTasks = todo.filter((task) => task.completed);
+  const incompleteTasks = todo.filter((task) => !task.completed);
+
   return (
     <div>
-      <h2>InComplete Tasks</h2>
-      <StyledUl>
-        <StyledLi>
-          <div className="task">
-            <label>
-              <input type="checkbox" />
-              Task 1
-            </label>
-          </div>
-          <span className="button">
-            <button>
-              <MdEdit />
-            </button>
-            <button>
-              <MdDeleteForever />
-            </button>
-          </span>
-        </StyledLi>
-      </StyledUl>
+      {incompleteTasks.length > 0 && (
+        <>
+          <h2 style={{ color: "red" }}>Incomplete Tasks</h2>
+          <StyledUl>
+            {incompleteTasks.map((task) => (
+              <StyledLi key={task.id}>
+                <div className="task">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={task.completed}
+                      onChange={() => toggleCompleted(task.id)}
+                    />
+                    {task.task}
+                  </label>
+                </div>
+                <span className="button">
+                  <button>
+                    <MdEdit />
+                  </button>
+                  <button>
+                    <MdDeleteForever />
+                  </button>
+                </span>
+              </StyledLi>
+            ))}
+          </StyledUl>
+        </>
+      )}
+
+      {completedTasks.length > 0 && (
+        <>
+          <h2 style={{ color: "green" }}>Complete Tasks</h2>
+          <StyledUl>
+            {completedTasks.map((task) => (
+              <StyledLi
+                key={task.id}
+                style={{ textDecoration: "line-through" }}
+              >
+                <div className="task">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={task.completed}
+                      onChange={() => toggleCompleted(task.id)}
+                    />
+                    {task.task}
+                  </label>
+                </div>
+                <span className="button">
+                  <button>
+                    <MdEdit />
+                  </button>
+                  <button>
+                    <MdDeleteForever />
+                  </button>
+                </span>
+              </StyledLi>
+            ))}
+          </StyledUl>
+        </>
+      )}
     </div>
   );
 };
@@ -34,7 +95,10 @@ const StyledLi = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  input {
+    padding: 0.5rem;
+    cursor: pointer;
+  }
   label {
     cursor: pointer;
     display: flex;
@@ -52,6 +116,7 @@ const StyledUl = styled.ul`
   list-style-type: none;
   padding: 0;
   margin: 0;
+
   .button {
     display: flex;
     gap: 10px;
@@ -65,6 +130,7 @@ const StyledUl = styled.ul`
       }
     }
   }
+
   button {
     display: flex;
     align-items: center;
