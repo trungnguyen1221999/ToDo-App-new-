@@ -5,10 +5,21 @@ import { useState } from "react";
 import type { Todo } from "../../@types/todo.type";
 
 const TodoList = () => {
+  const [todo, setTodo] = useState<Todo[]>([]);
+
+  const handleAdd = (task: string) => {
+    const newTodo: Todo = {
+      id: Date.now().toString(),
+      task,
+      completed: false,
+    };
+    setTodo([...todo, newTodo]);
+  };
+  console.log(todo);
   return (
     <Todo>
       <Container>
-        <TaskInput />
+        <TaskInput handleAdd={handleAdd} />
         <TaskList />
       </Container>
     </Todo>

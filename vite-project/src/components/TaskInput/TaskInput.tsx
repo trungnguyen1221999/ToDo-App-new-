@@ -1,12 +1,32 @@
+import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import styled from "styled-components";
 
-const TaskInput = () => {
+interface PropsType {
+  handleAdd: (task: string) => void;
+}
+
+const TaskInput = (props: PropsType) => {
+  const { handleAdd } = props;
+  const [input, setInput] = useState<string>("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input.trim() === "") return;
+    handleAdd(input);
+    setInput("");
+  };
+
   return (
     <div>
       <h1>To Do List - TypeScript</h1>
-      <StyledForm action="">
-        <input type="text" placeholder="Add a new task..." />
+      <StyledForm action="" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Add a new task..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
         <button type="submit">
           <IoMdAdd />
         </button>
