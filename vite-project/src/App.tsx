@@ -1,5 +1,11 @@
+import TodoList from "./components/TodoLists";
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <TodoList />
+    </>
+  );
 }
 
 export default App;
