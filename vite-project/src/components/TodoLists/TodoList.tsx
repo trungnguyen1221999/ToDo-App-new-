@@ -2,10 +2,14 @@ import styled from "styled-components";
 import TaskInput from "../TaskInput";
 import TaskList from "../TaskList";
 import { useEffect, useState } from "react";
-import type { Todo } from "../../@types/todo.type";
 import Poup from "../Popup";
 import EditPoup from "../Popup/EditPoup";
 
+interface Todo {
+  id: string;
+  task: string;
+  completed: boolean;
+}
 const TodoList = () => {
   const [todo, setTodo] = useState<Todo[]>(() => {
     const stored = localStorage.getItem("todos");

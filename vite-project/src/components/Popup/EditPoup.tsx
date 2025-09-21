@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Overlay, StyledPopup } from "./Poup";
-import type { Todo } from "../../@types/todo.type";
-
+interface Todo {
+  id: string;
+  task: string;
+  completed: boolean;
+}
 interface EditPopupProps {
   setTodo: React.Dispatch<React.SetStateAction<Todo[]>>;
   id: string;

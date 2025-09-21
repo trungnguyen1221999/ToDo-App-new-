@@ -1,6 +1,16 @@
-import React, { useState } from "react";
 import styled from "styled-components";
-import type { PopupRemove } from "../../@types/todo.type";
+interface Todo {
+  id: string;
+  task: string;
+  completed: boolean;
+}
+interface PopupRemove {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  setTodo: React.Dispatch<React.SetStateAction<Todo[]>>;
+  id: string;
+  setId: React.Dispatch<React.SetStateAction<string>>;
+}
 
 const Poup = (prop: PopupRemove) => {
   const { open, setOpen, setTodo, id } = prop;

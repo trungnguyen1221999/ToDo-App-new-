@@ -1,7 +1,11 @@
 import { MdEdit, MdDeleteForever } from "react-icons/md";
 import styled from "styled-components";
-import type { Todo } from "../../@types/todo.type";
 
+interface Todo {
+  id: string;
+  task: string;
+  completed: boolean;
+}
 interface PropsType {
   todo: Todo[];
   setTodo: React.Dispatch<React.SetStateAction<Todo[]>>;
