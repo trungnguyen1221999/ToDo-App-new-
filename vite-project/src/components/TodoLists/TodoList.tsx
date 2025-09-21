@@ -1,26 +1,35 @@
 import styled from "styled-components";
 import TaskInput from "../TaskInput";
 import TaskList from "../TaskList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Todo } from "../../@types/todo.type";
 import Poup from "../Popup";
 import EditPoup from "../Popup/EditPoup";
 
 const TodoList = () => {
-  const [todo, setTodo] = useState<Todo[]>([]);
+  const [todo, setTodo] = useState<Todo[]>(() => {
+    const stored = localStorage.getItem("todos");
+    return stored ? JSON.parse(stored) : [];
+  });
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [id, setId] = useState<string>("");
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [initialInput, setInitialInput] = useState("");
+
+  // Mỗi lần todo thay đổi -> lưu lại localStorage
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todo));
+  }, [todo]);
+
   const handleAdd = (task: string) => {
     const newTodo: Todo = {
       id: Date.now().toString(),
       task,
       completed: false,
     };
-    setTodo([...todo, newTodo]);
+    setTodo((prev) => [...prev, newTodo]); // set state
   };
-  console.log(todo);
+
   return (
     <Todo>
       <Container>
@@ -38,6 +47,8 @@ const TodoList = () => {
           setInitialInput={setInitialInput}
         />
       </Container>
+
+      {/* Popup xóa task */}
       <Poup
         open={isPopupOpen}
         setOpen={setIsPopupOpen}
@@ -45,6 +56,8 @@ const TodoList = () => {
         setId={setId}
         id={id}
       />
+
+      {/* Popup edit task */}
       <EditPoup
         setTodo={setTodo}
         setId={setId}

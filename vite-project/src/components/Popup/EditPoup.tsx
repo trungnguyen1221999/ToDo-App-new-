@@ -12,15 +12,7 @@ interface EditPopupProps {
   setInitialInput: React.Dispatch<React.SetStateAction<string>>;
 }
 const EditPoup = (prop: EditPopupProps) => {
-  const {
-    setTodo,
-    id,
-    setId,
-    isEditOpen,
-    setIsEditOpen,
-    initialInput,
-    setInitialInput,
-  } = prop;
+  const { setTodo, id, isEditOpen, setIsEditOpen, initialInput } = prop;
   const [input, setInput] = useState(initialInput);
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -43,13 +35,16 @@ const EditPoup = (prop: EditPopupProps) => {
             <div className="button">
               <button
                 onClick={() => {
-                  setTodo((prev) =>
-                    prev.map((task) =>
+                  setTodo((prev) => {
+                    const newTodo = prev.map((task) =>
                       task.id === id ? { ...task, task: input } : task
-                    )
-                  );
+                    );
+
+                    localStorage.setItem("todos", JSON.stringify(newTodo));
+                    return newTodo;
+                  });
+
                   setIsEditOpen(false);
-                  setInput("");
                 }}
                 style={{ backgroundColor: "green", color: "white" }}
               >

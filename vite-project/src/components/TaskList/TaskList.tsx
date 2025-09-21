@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { MdEdit, MdDeleteForever } from "react-icons/md";
 import styled from "styled-components";
 import type { Todo } from "../../@types/todo.type";
@@ -21,20 +20,20 @@ const TaskList = (prop: PropsType) => {
     todo,
     setTodo,
     setIsPopupOpen,
-    id,
     setId,
-    isPopupOpen,
-    isEditOpen,
     setIsEditOpen,
-    initialInput,
     setInitialInput,
   } = prop;
+
+  // Toggle completed + lưu localStorage
   const toggleCompleted = (id: string) => {
-    setTodo((prev) =>
-      prev.map((task) =>
+    setTodo((prev) => {
+      const newTodos = prev.map((task) =>
         task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+      );
+      localStorage.setItem("todos", JSON.stringify(newTodos));
+      return newTodos;
+    });
   };
 
   const completedTasks = todo.filter((task) => task.completed);
@@ -46,7 +45,7 @@ const TaskList = (prop: PropsType) => {
         <>
           <h2 style={{ color: "red" }}>Incomplete Tasks</h2>
           <StyledUl>
-            {incompleteTasks.map((task) => (
+            {incompleteTasks.map((task: Todo) => (
               <StyledLi key={task.id}>
                 <div className="task">
                   <label>
@@ -87,7 +86,7 @@ const TaskList = (prop: PropsType) => {
         <>
           <h2 style={{ color: "green" }}>Complete Tasks</h2>
           <StyledUl>
-            {completedTasks.map((task) => (
+            {completedTasks.map((task: Todo) => (
               <StyledLi
                 key={task.id}
                 style={{ textDecoration: "line-through" }}

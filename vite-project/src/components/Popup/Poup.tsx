@@ -3,10 +3,12 @@ import styled from "styled-components";
 import type { PopupRemove } from "../../@types/todo.type";
 
 const Poup = (prop: PopupRemove) => {
-  const { open, setOpen, setTodo, id, setId } = prop;
+  const { open, setOpen, setTodo, id } = prop;
   const handleRemove = () => {
-    setTodo((prev) => prev.filter((task) => task.id !== id));
+    const newTodo = setTodo((prev) => prev.filter((task) => task.id !== id));
     setOpen(false);
+    localStorage.setItem("todos", JSON.stringify(newTodo));
+    return newTodo;
   };
   return (
     <>
